@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSAJ Informatika XII — Kurikulum Merdeka</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;--bg2:#161b27;--bg3:#1e2535;--bg4:#252e42;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);--border3:rgba(255,255,255,.18);
+  --text:#dde1ed;--text2:#8b92a8;--text3:#4e5770;
+  --blue:#4f8ef7;--blue-d:#3a7be8;--blue-bg:rgba(79,142,247,.1);--blue-br:rgba(79,142,247,.28);
+  --green:#3ecf8e;--green-bg:rgba(62,207,142,.1);--green-br:rgba(62,207,142,.28);
+  --red:#f56565;--red-bg:rgba(245,101,101,.1);--red-br:rgba(245,101,101,.28);
+  --yellow:#f6c90e;--yellow-bg:rgba(246,201,14,.08);--yellow-br:rgba(246,201,14,.28);
+  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.1);--purple-br:rgba(167,139,250,.28);
+  --orange:#fb923c;--orange-bg:rgba(251,146,60,.1);--orange-br:rgba(251,146,60,.28);
+  --r:10px;--r-sm:6px;--r-xs:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+
+/* NAV */
+nav{background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 20px;height:54px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:200}
+.nav-logo{font-size:14px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+.nav-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.nav-logo span{color:var(--blue)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav-chip{font-size:11px;color:var(--text2);padding:4px 10px;background:var(--bg3);border-radius:20px;border:1px solid var(--border2)}
+.timer{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;padding:5px 12px;border-radius:20px;background:var(--yellow-bg);border:1px solid var(--yellow-br);color:var(--yellow);display:none}
+.timer.urgent{background:var(--red-bg);border-color:var(--red-br);color:var(--red);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* PAGES */
+.page{display:none;flex:1;flex-direction:column}
+.page.active{display:flex}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .14s;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--bg4);border-color:var(--border3)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-d)}
+.btn-green{background:var(--green-bg);border-color:var(--green-br);color:var(--green)}
+.btn-red{background:var(--red-bg);border-color:var(--red-br);color:var(--red)}
+.btn-yellow{background:var(--yellow-bg);border-color:var(--yellow-br);color:var(--yellow)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-xs{padding:4px 8px;font-size:11px}
+.btn-block{width:100%}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card-sm{padding:14px}
+.card-xs{padding:10px 12px}
+
+/* FORMS */
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em}
+input,select,textarea{width:100%;padding:10px 14px;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:var(--r-sm);font-size:14px;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.14)}
+input::placeholder,textarea::placeholder{color:var(--text3)}
+select option{background:var(--bg2)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:var(--r-xs);font-size:11px;font-weight:700;letter-spacing:.02em;border:1px solid transparent}
+.b-blue{background:var(--blue-bg);border-color:var(--blue-br);color:var(--blue)}
+.b-green{background:var(--green-bg);border-color:var(--green-br);color:var(--green)}
+.b-red{background:var(--red-bg);border-color:var(--red-br);color:var(--red)}
+.b-yellow{background:var(--yellow-bg);border-color:var(--yellow-br);color:var(--yellow)}
+.b-purple{background:var(--purple-bg);border-color:var(--purple-br);color:var(--purple)}
+.b-orange{background:var(--orange-bg);border-color:var(--orange-br);color:var(--orange)}
+.b-gray{background:var(--bg4);border-color:var(--border2);color:var(--text2)}
+
+/* PROGRESS */
+.progress{width:100%;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .4s ease}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;display:block;letter-spacing:-1px;font-family:'JetBrains Mono',monospace}
+.stat-lbl{font-size:11px;color:var(--text2);margin-top:3px}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);gap:2px;margin-bottom:18px}
+.tab{padding:10px 16px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--text2);transition:all .15s;font-weight:500}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{padding:8px 10px;text-align:left;font-weight:700;color:var(--text3);border-bottom:1px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.data-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+.data-table tbody tr:hover td{background:var(--bg3)}
+.data-table tbody tr:last-child td{border-bottom:none}
+
+/* BAR CHART */
+.bar-item{margin-bottom:12px}
+.bar-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.bar-label{font-size:12px;font-weight:500;color:var(--text)}
+.bar-pct{font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.bar{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;max-width:500px;width:93%;animation:mIn .18s ease}
+.modal-lg{max-width:740px;max-height:88vh;overflow-y:auto}
+@keyframes mIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.5}
+.modal-actions{display:flex;gap:8px}
+
+/* Q-ITEM */
+.q-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;animation:fadeUp .2s ease}
+.q-wrap.answered{border-color:rgba(62,207,142,.25)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.q-text{font-size:15px;font-weight:500;line-height:1.65;margin-bottom:14px}
+.q-hint{font-size:12px;color:var(--text2);background:var(--bg3);border-radius:var(--r-sm);padding:7px 10px;margin-bottom:12px;border-left:2px solid var(--blue)}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--bg3);cursor:pointer;font-size:13px;transition:all .12s;color:var(--text2);line-height:1.5;text-align:left;width:100%;font-family:inherit}
+.opt:hover{border-color:var(--border3);color:var(--text);background:var(--bg4)}
+.opt.sel{border-color:var(--blue-br);background:var(--blue-bg);color:var(--blue)}
+.opt-key{width:20px;height:20px;flex-shrink:0;border-radius:var(--r-xs);border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:1px}
+
+/* MENJODOHKAN */
+.mj-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.mj-label{padding:10px 12px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);font-size:12px;line-height:1.4}
+.mj-label strong{color:var(--blue);margin-right:5px}
+.mj-sel{padding:9px 10px;font-size:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);color:var(--text);font-family:inherit;cursor:pointer;transition:border-color .14s;width:100%}
+.mj-sel:focus{outline:none;border-color:var(--blue)}
+.mj-sel option{background:var(--bg2)}
+
+/* BENAR SALAH */
+.bs-wrap{display:flex;gap:8px;margin-top:10px}
+.bs-btn{flex:1;padding:11px;font-size:13px;font-weight:700;border-radius:var(--r-sm);cursor:pointer;font-family:inherit;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all .12s;letter-spacing:.03em}
+.bs-btn:hover{background:var(--bg4);color:var(--text)}
+.bs-btn.b-true{border-color:var(--green-br);background:var(--green-bg);color:var(--green)}
+.bs-btn.b-false{border-color:var(--red-br);background:var(--red-bg);color:var(--red)}
+
+/* Q-NAV PANEL */
+.qnav{display:flex;flex-wrap:wrap;gap:5px}
+.qnav-btn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border2);background:var(--bg3);font-size:11px;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s;font-family:inherit;display:flex;align-items:center;justify-content:center}
+.qnav-btn:hover{border-color:var(--border3);color:var(--text2)}
+.qnav-btn.done{background:var(--green-bg);border-color:var(--green-br);color:var(--green)}
+.qnav-btn.cur{background:var(--blue-bg);border-color:var(--blue-br);color:var(--blue)}
+
+/* EXAM LAYOUT */
+.exam-layout{display:flex;gap:16px;padding:20px;flex:1;max-width:1100px;margin:0 auto;width:100%;align-items:flex-start}
+.exam-main{flex:1;min-width:0}
+.exam-sidebar{width:220px;flex-shrink:0;position:sticky;top:70px}
+
+/* HOME */
+.home-wrap{max-width:460px;margin:0 auto;padding:40px 20px;width:100%}
+.home-hero{text-align:center;margin-bottom:24px}
+.glow-title{font-size:26px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;background:linear-gradient(135deg,#fff 0%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* DONE PAGE */
+.done-wrap{max-width:500px;margin:0 auto;padding:40px 20px;width:100%;text-align:center}
+.done-icon{font-size:56px;margin-bottom:16px;display:block}
+.done-title{font-size:22px;font-weight:700;margin-bottom:8px}
+.done-sub{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:24px}
+
+/* ADMIN */
+.admin-wrap{max-width:1200px;margin:0 auto;padding:20px;width:100%}
+.admin-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+
+/* DETAIL ANSWER IN ADMIN */
+.review-item{padding:11px 13px;border-radius:var(--r-sm);border:1px solid var(--border);margin-bottom:7px;font-size:12px;line-height:1.5}
+.review-item.ok{border-color:var(--green-br);background:var(--green-bg)}
+.review-item.ng{border-color:var(--red-br);background:var(--red-bg)}
+
+/* URAIAN SCORE INPUT */
+.uraian-card{border:1px solid var(--border2);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.uraian-ans{background:var(--bg3);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;white-space:pre-wrap;line-height:1.6;color:var(--text);margin-bottom:10px;max-height:180px;overflow-y:auto}
+.rubrik-note{font-size:11px;color:var(--text2);padding:6px 10px;background:var(--bg4);border-radius:var(--r-xs);margin-bottom:10px;border-left:2px solid var(--purple)}
+.score-row{display:flex;align-items:center;gap:10px}
+
+/* PIN PAGE */
+.pin-wrap{max-width:360px;margin:60px auto;padding:0 20px}
+
+/* responsive */
+@media(max-width:680px){
+  .exam-layout{flex-direction:column;padding:12px}
+  .exam-sidebar{width:100%;position:relative;top:0}
+  .mj-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .admin-header{flex-direction:column}
+  nav{padding:0 14px}
+}
+@media(max-width:420px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-val{font-size:22px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    PSAJ <span>Informatika</span>
+  </div>
+  <div class="nav-r">
+    <div class="nav-chip" id="nav-chip">Kelas XII · Kurikulum Merdeka</div>
+    <div class="timer" id="timer"></div>
+    <button class="btn btn-xs" id="btn-guru" onclick="goAdmin()">Mode Guru</button>
+  </div>
+</nav>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="pg-home">
+  <div class="home-wrap">
+    <div class="home-hero">
+      <div style="font-size:44px;margin-bottom:12px">📋</div>
+      <div class="glow-title">PSAJ Informatika XII</div>
+      <p style="font-size:13px;color:var(--text2)">Kurikulum Merdeka · Tahun Pelajaran 2024/2025</p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <p style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Informasi Ujian</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;font-size:12px">
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Waktu</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">120 Menit</div></div>
+        <div style="padding:8px 0 8px 14px;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Total Soal</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">43 Soal</div></div>
+        <div style="padding:8px 0"><span style="color:var(--text2)">Pilihan Ganda</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">17 soal</div></div>
+        <div style="padding:8px 0 8px 14px"><span style="color:var(--text2)">PG Kompleks</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">7 soal</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--border)"><span style="color:var(--text2)">Menjodohkan</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">7 pasang</div></div>
+        <div style="padding:8px 0 8px 14px;border-top:1px solid var(--border)"><span style="color:var(--text2)">Benar / Salah</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">7 soal</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--border)"><span style="color:var(--text2)">Isian Singkat</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">2 soal</div></div>
+        <div style="padding:8px 0 8px 14px;border-top:1px solid var(--border)"><span style="color:var(--text2)">Uraian</span><div style="font-weight:600;font-family:'JetBrains Mono',monospace;margin-top:2px">3 soal</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px">Data Peserta</p>
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <input id="inp-nama" type="text" placeholder="Masukkan nama lengkap Anda">
+      </div>
+      <div class="form-group">
+        <label>Kelas</label>
+        <select id="inp-kelas">
+          <option value="">— Pilih Kelas —</option>
+          <option>XII IPA 1</option><option>XII IPA 2</option><option>XII IPA 3</option>
+          <option>XII IPS 1</option><option>XII IPS 2</option><option>XII IPS 3</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:18px">
+        <label>Nomor Absen</label>
+        <input id="inp-absen" type="number" placeholder="Contoh: 12" min="1" max="40">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="startExam()">Mulai Ujian →</button>
+      <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:10px">Pastikan koneksi internet stabil sebelum memulai</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: EXAM -->
+<div class="page" id="pg-exam">
+  <div class="exam-layout">
+    <div class="exam-main">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap">
+        <div style="font-size:13px;color:var(--text2)" id="exam-prog-txt"></div>
+        <div id="exam-section-badge"></div>
+      </div>
+      <div class="progress" style="margin-bottom:18px"><div class="progress-fill" id="exam-prog-bar" style="width:0%"></div></div>
+      <div id="exam-q-area"></div>
+    </div>
+    <div class="exam-sidebar">
+      <div class="card card-sm">
+        <p style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Navigasi Soal</p>
+        <div class="qnav" id="qnav"></div>
+        <hr>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-sm" style="flex:1" onclick="goPrev()">← Prev</button>
+            <button class="btn btn-sm btn-primary" style="flex:1" onclick="goNext()">Next →</button>
+          </div>
+          <button class="btn btn-sm btn-red btn-block" onclick="openConfirm()" style="margin-top:2px">Kumpulkan Ujian</button>
+        </div>
+        <hr>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--text2)">
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--green-bg);border:1px solid var(--green-br)"></div>Sudah dijawab</div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--blue-bg);border:1px solid var(--blue-br)"></div>Soal saat ini</div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:2px;background:var(--bg3);border:1px solid var(--border2)"></div>Belum dijawab</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: DONE (setelah kumpulkan — TANPA nilai/jawaban) -->
+<div class="page" id="pg-done">
+  <div class="done-wrap">
+    <span class="done-icon">✅</span>
+    <div class="done-title">Ujian Dikumpulkan!</div>
+    <div class="done-sub">
+      Jawaban Anda telah berhasil disimpan dan dikirim ke sistem.<br>
+      Hasil ujian akan diumumkan oleh guru setelah seluruh penilaian selesai dilakukan.<br><br>
+      <strong style="color:var(--text)">Terima kasih telah mengerjakan ujian dengan jujur!</strong>
+    </div>
+    <div class="card" style="text-align:left;margin-bottom:20px">
+      <p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Ringkasan Pengerjaan</p>
+      <div id="done-summary" style="font-size:13px;display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="goHome()">Kembali ke Halaman Utama</button>
+  </div>
+</div>
+
+<!-- PAGE: ADMIN PIN -->
+<div class="page" id="pg-pin">
+  <div class="pin-wrap">
+    <div style="margin-bottom:24px">
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">Mode Guru</div>
+      <p style="font-size:13px;color:var(--text2)">Masukkan PIN untuk mengakses dashboard penilaian</p>
+    </div>
+    <div class="card">
+      <div class="form-group" style="margin-bottom:16px">
+        <label>PIN Guru</label>
+        <input id="pin-inp" type="password" placeholder="Masukkan PIN..." onkeydown="if(event.key==='Enter')checkPin()">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="checkPin()">Masuk Dashboard →</button>
+      <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:10px">Default PIN: 1234 (dapat diubah di konfigurasi)</p>
+    </div>
+    <button class="btn btn-sm" style="margin-top:12px" onclick="showPage('home')">← Kembali</button>
+  </div>
+</div>
+
+<!-- PAGE: ADMIN DASHBOARD -->
+<div class="page" id="pg-admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px">Dashboard Guru</div>
+        <p style="font-size:13px;color:var(--text2)">Rekap jawaban dan penilaian peserta PSAJ Informatika XII</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-xs" onclick="refreshAdmin()">↻ Refresh</button>
+        <button class="btn btn-xs btn-green" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="btn btn-xs btn-red" onclick="clearData()">Hapus Data</button>
+        <button class="btn btn-xs" onclick="showPage('home');document.getElementById('btn-guru').style.display='flex'">← Keluar</button>
+      </div>
+    </div>
+
+    <div class="stats-grid" id="admin-stats" style="margin-bottom:18px"></div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('responden',this)">Daftar Responden</div>
+      <div class="tab" onclick="switchTab('rekap',this)">Rekap per Soal</div>
+      <div class="tab" onclick="switchTab('materi',this)">Analisis Materi</div>
+      <div class="tab" onclick="switchTab('uraian-tab',this)">Penilaian Uraian</div>
+    </div>
+
+    <div id="tab-responden">
+      <div class="card" style="padding:14px">
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <input id="f-nama" type="text" placeholder="Cari nama..." style="width:190px" oninput="renderResponden()">
+          <select id="f-kelas" style="width:150px" onchange="renderResponden()">
+            <option value="">Semua Kelas</option>
+            <option>XII IPA 1</option><option>XII IPA 2</option><option>XII IPA 3</option>
+            <option>XII IPS 1</option><option>XII IPS 2</option><option>XII IPS 3</option>
+          </select>
+          <select id="f-sort" style="width:160px" onchange="renderResponden()">
+            <option value="time">Urut: Waktu</option>
+            <option value="nilai-desc">Nilai: Tinggi ke Rendah</option>
+            <option value="nilai-asc">Nilai: Rendah ke Tinggi</option>
+            <option value="nama">Nama A-Z</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr>
+              <th>#</th><th>Nama</th><th>Kelas</th><th>Absen</th>
+              <th>Nilai Obj</th><th>+Uraian</th><th>Total</th><th>Predikat</th>
+              <th>PG</th><th>PGK</th><th>Mjdk</th><th>B/S</th><th>Isian</th>
+              <th>Waktu Selesai</th><th>Aksi</th>
+            </tr></thead>
+            <tbody id="resp-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-rekap" style="display:none">
+      <div class="card">
+        <p style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px">Persentase Jawaban Benar per Soal PG</p>
+        <div id="rekap-content"></div>
+      </div>
+    </div>
+
+    <div id="tab-materi" style="display:none">
+      <div class="card">
+        <p style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px">Tingkat Penguasaan Materi (rata-rata kelas)</p>
+        <div id="materi-content"></div>
+      </div>
+    </div>
+
+    <div id="tab-uraian-tab" style="display:none">
+      <div id="uraian-list"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end app -->
+
+<!-- MODAL: CONFIRM SUBMIT -->
+<div class="modal-bg" id="modal-confirm">
+  <div class="modal">
+    <div class="modal-title">Kumpulkan Ujian?</div>
+    <div class="modal-sub" id="confirm-info"></div>
+    <div class="modal-actions">
+      <button class="btn" style="flex:1" onclick="closeModal('modal-confirm')">Kembali</button>
+      <button class="btn btn-primary" style="flex:1" onclick="submitExam()">Ya, Kumpulkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: DETAIL JAWABAN (admin) -->
+<div class="modal-bg" id="modal-detail">
+  <div class="modal modal-lg">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px">
+      <div style="font-size:15px;font-weight:700" id="detail-title"></div>
+      <button class="btn btn-xs" onclick="closeModal('modal-detail')">Tutup ×</button>
+    </div>
+    <div id="detail-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATABASE SOAL
+// ═══════════════════════════════════════════════
+const DB = {
+  pg:[
+    {no:1,materi:"Informatika Masa Depan",soal:"Perkembangan teknologi yang memungkinkan mesin belajar dari data dan melakukan prediksi tanpa diprogram secara eksplisit dikenal sebagai…",opsi:["Artificial Intelligence","Internet of Things (IoT)","Machine Learning","Blockchain","Cloud Computing"],kunci:2},
+    {no:2,materi:"Informatika Masa Depan",soal:"Teknologi yang memungkinkan benda-benda fisik terhubung ke internet dan saling berkomunikasi satu sama lain disebut…",opsi:["Machine Learning","Big Data","Blockchain","Internet of Things (IoT)","Virtual Reality"],kunci:3},
+    {no:3,materi:"Informatika Masa Depan",soal:"Layanan komputasi yang menyediakan sumber daya teknologi melalui internet secara on-demand adalah…",opsi:["Edge Computing","Cloud Computing","Fog Computing","Grid Computing","Quantum Computing"],kunci:1},
+    {no:4,materi:"Sistem Komputer (SBC)",soal:"Single Board Computer (SBC) yang paling populer dan sering digunakan untuk proyek pendidikan adalah…",opsi:["Arduino Mega","Raspberry Pi","ESP8266","Intel NUC","Nvidia Jetson"],kunci:1},
+    {no:5,materi:"Sistem Komputer (SBC)",soal:"Perbedaan utama antara Raspberry Pi dan Arduino adalah…",opsi:["Raspberry Pi tidak bisa menjalankan OS","Raspberry Pi adalah komputer lengkap dengan OS; Arduino adalah mikrokontroler","Arduino lebih cepat dari Raspberry Pi","Raspberry Pi hanya untuk robotik","Arduino punya RAM lebih besar"],kunci:1},
+    {no:6,materi:"Sistem Komputer (SBC)",soal:"Pin GPIO (General Purpose Input/Output) pada Single Board Computer berfungsi untuk…",opsi:["Koneksi internet via ethernet","Koneksi monitor via HDMI","Berinteraksi dengan komponen elektronik eksternal seperti sensor dan aktuator","Mengisi daya baterai","Menyimpan data secara permanen"],kunci:2},
+    {no:7,materi:"Berpikir Komputasional & Algoritma",soal:"Proses mengidentifikasi kesamaan pola atau tren dalam suatu masalah untuk mempermudah pemecahannya disebut…",opsi:["Decomposition","Abstraction","Pattern Recognition","Algorithm Design","Generalization"],kunci:2},
+    {no:8,materi:"Berpikir Komputasional & Algoritma",soal:"Pseudocode: X=10, Y=3, Z=X MOD Y, Cetak Z. Output yang dihasilkan adalah…",opsi:["0","1","2","3","7"],kunci:1},
+    {no:9,materi:"Berpikir Komputasional & Algoritma",soal:"Struktur kontrol yang mengulangi eksekusi blok kode selama kondisi tertentu bernilai benar disebut…",opsi:["If-Else","Switch-Case","Sequence","Looping (Perulangan)","Function"],kunci:3},
+    {no:10,materi:"Jaringan & Cyber Security",soal:"Perangkat jaringan yang meneruskan paket data antar jaringan berbeda dan menentukan jalur terbaik adalah…",opsi:["Switch","Hub","Router","Access Point","Repeater"],kunci:2},
+    {no:11,materi:"Jaringan & Cyber Security",soal:"Serangan siber yang membanjiri server dengan traffic palsu sehingga tidak dapat melayani pengguna sah disebut…",opsi:["Phishing","Man-in-the-Middle","SQL Injection","DDoS (Distributed Denial of Service)","Ransomware"],kunci:3},
+    {no:12,materi:"Jaringan & Cyber Security",soal:"Proses mengubah plaintext menjadi ciphertext agar hanya pemilik kunci yang dapat membacanya disebut…",opsi:["Dekripsi","Autentikasi","Enkripsi","Hashing","Kompresi"],kunci:2},
+    {no:13,materi:"Dampak Sosial Informatika",soal:"Penyebaran informasi yang salah secara tidak sengaja oleh orang yang mempercayainya benar disebut…",opsi:["Disinformasi","Misinformasi","Propaganda","Hoaks terencana","Ujaran Kebencian"],kunci:1},
+    {no:14,materi:"Dampak Sosial Informatika",soal:"Undang-Undang yang mengatur Informasi dan Transaksi Elektronik di Indonesia adalah…",opsi:["UU No. 28 Tahun 2014","UU No. 19 Tahun 2016","UU No. 11 Tahun 2008","UU No. 36 Tahun 1999","UU No. 14 Tahun 2008"],kunci:2},
+    {no:15,materi:"Dampak Sosial Informatika",soal:"Kemampuan individu untuk mencari, memahami, mengevaluasi, dan menggunakan informasi secara efektif disebut…",opsi:["Literasi Digital","Literasi Komputer","Literasi Informasi","Literasi Media","Literasi Data"],kunci:2},
+    {no:16,materi:"Pemrograman C & Arduino",soal:"Pada Arduino, fungsi yang dijalankan hanya sekali saat program pertama kali dieksekusi adalah…",opsi:["loop()","main()","setup()","begin()","init()"],kunci:2},
+    {no:17,materi:"Pemrograman C & Arduino",soal:"Kode Arduino: pinMode(13,OUTPUT) lalu di loop(): digitalWrite(13,HIGH); delay(1000); digitalWrite(13,LOW); delay(1000). Fungsi program tersebut adalah…",opsi:["Membaca sensor pada pin 13","Menghidupkan LED pin 13 secara permanen","Menyalakan dan mematikan LED pin 13 setiap 1 detik (LED blink)","Mengirimkan data melalui pin 13","Mengukur tegangan pada pin 13"],kunci:2},
+  ],
+  pgk:[
+    {no:18,materi:"Informatika Masa Depan",soal:"Karakteristik dari Big Data yang benar adalah… (pilih semua yang benar)",opsi:["Volume: ukuran data sangat besar (tera hingga petabyte)","Velocity: kecepatan data masuk sangat tinggi","Variety: data hanya berupa teks dan angka","Veracity: tingkat kepercayaan dan kebenaran data","Value: nilai/manfaat yang dapat diambil dari data"],kunci:[0,1,3,4]},
+    {no:19,materi:"Sistem Komputer (SBC)",soal:"Komponen yang umumnya terdapat pada Single Board Computer seperti Raspberry Pi adalah… (pilih semua yang benar)",opsi:["Processor (CPU)","RAM (Memory)","Mesin pembakaran internal","GPIO Pins untuk koneksi hardware eksternal","Port koneksi (USB, HDMI, Ethernet)"],kunci:[0,1,3,4]},
+    {no:20,materi:"Berpikir Komputasional & Algoritma",soal:"Penerapan Berpikir Komputasional yang tepat adalah… (pilih semua yang benar)",opsi:["Memecah proyek besar menjadi tugas-tugas kecil (Decomposition)","Mengidentifikasi langkah berulang untuk efisiensi (Pattern Recognition)","Memilih warna favorit untuk desain poster","Menyusun langkah penyelesaian masalah secara sistematis (Algorithm Design)","Menyederhanakan masalah dengan mengabaikan detail tidak relevan (Abstraction)"],kunci:[0,1,3,4]},
+    {no:21,materi:"Jaringan & Cyber Security",soal:"Langkah tepat untuk mengamankan jaringan komputer adalah… (pilih semua yang benar)",opsi:["Menggunakan firewall untuk memfilter lalu lintas jaringan","Menggunakan password kuat dan berbeda untuk setiap akun","Membagikan password ke semua pengguna agar mudah diakses","Melakukan update sistem operasi dan software secara rutin","Menggunakan protokol HTTPS untuk komunikasi terenkripsi"],kunci:[0,1,3,4]},
+    {no:22,materi:"Dampak Sosial Informatika",soal:"Dampak negatif penggunaan media sosial yang perlu diwaspadai adalah… (pilih semua yang benar)",opsi:["Penyebaran hoaks dan berita bohong","Cyberbullying dan pelecehan online","Penggunaan platform untuk belajar dan menambah pengetahuan","Kecanduan media sosial yang mengganggu produktivitas","Pelanggaran privasi melalui penyalahgunaan data pribadi"],kunci:[0,1,3,4]},
+    {no:23,materi:"Pemrograman C & Arduino",soal:"Pernyataan benar mengenai pemrograman Arduino adalah… (pilih semua yang benar)",opsi:["Arduino menggunakan bahasa berbasis C/C++","digitalWrite() digunakan untuk sinyal digital HIGH/LOW ke pin","analogRead() hanya membaca nilai 0 dan 1","Serial.println() digunakan untuk mengirim data ke Serial Monitor","Variabel bertipe int menyimpan bilangan bulat"],kunci:[0,1,3,4]},
+    {no:24,materi:"Informatika Masa Depan",soal:"Penerapan nyata Kecerdasan Buatan (AI) dalam kehidupan adalah… (pilih semua yang benar)",opsi:["Sistem rekomendasi produk pada e-commerce","Diagnosa medis berbasis analisis citra (medical imaging)","Penggantian seluruh tenaga manusia tanpa terkecuali","Asisten virtual seperti Siri, Google Assistant, Alexa","Kendaraan otonom (self-driving car)"],kunci:[0,1,3,4]},
+  ],
+  menjodohkan:{
+    no:25,materi:"Jaringan & Cyber Security",
+    kolA:["Firewall","VPN (Virtual Private Network)","Phishing","Malware","SSL/TLS","Two-Factor Authentication (2FA)","Patch / Update Keamanan"],
+    kolB:[
+      "A. Sistem keamanan yang memfilter lalu lintas jaringan berdasarkan aturan",
+      "B. Teknologi koneksi internet terenkripsi dan anonim melalui server perantara",
+      "C. Serangan yang mengelabui pengguna untuk menyerahkan informasi sensitif",
+      "D. Perangkat lunak berbahaya untuk merusak, mencuri, atau mengganggu sistem",
+      "E. Protokol kriptografi yang mengamankan komunikasi browser dan server web",
+      "F. Metode verifikasi identitas yang membutuhkan dua bukti berbeda",
+      "G. Pembaruan perangkat lunak untuk memperbaiki celah keamanan",
+      "H. Metode penyimpanan data terdistribusi pada banyak komputer"
+    ],
+    kunci:["A","B","C","D","E","F","G"]
+  },
+  bs:[
+    {no:26,materi:"Informatika Masa Depan",soal:"Cloud Computing memungkinkan pengguna mengakses sumber daya komputasi melalui internet tanpa memiliki infrastruktur fisik sendiri.",kunci:true,penjelasan:"Cloud Computing memberikan akses on-demand ke sumber daya komputasi dengan model pay-as-you-go melalui internet."},
+    {no:27,materi:"Sistem Komputer (SBC)",soal:"Arduino Uno memiliki sistem operasi Linux yang lengkap sehingga dapat menjalankan aplikasi desktop.",kunci:false,penjelasan:"Arduino adalah mikrokontroler yang tidak menjalankan OS. Raspberry Pi yang dapat menjalankan Linux sebagai komputer lengkap."},
+    {no:28,materi:"Berpikir Komputasional & Algoritma",soal:"Flowchart menggunakan simbol belah ketupat untuk keputusan (decision) dan persegi panjang untuk proses.",kunci:true,penjelasan:"Standar simbol flowchart: Oval=Start/End, Persegi panjang=Proses, Belah ketupat=Keputusan, Jajar genjang=Input/Output."},
+    {no:29,materi:"Jaringan & Cyber Security",soal:"Alamat IP 192.168.1.1 adalah contoh alamat IP publik yang dapat diakses langsung dari internet.",kunci:false,penjelasan:"192.168.1.1 adalah IP privat (range 192.168.0.0/16) untuk jaringan lokal. IP privat tidak dapat diakses langsung dari internet."},
+    {no:30,materi:"Dampak Sosial Informatika",soal:"Hak Cipta berlaku seumur hidup pencipta ditambah 70 tahun setelah meninggal, sesuai UU Hak Cipta Indonesia (UU No. 28 Tahun 2014).",kunci:true,penjelasan:"Sesuai UU No. 28 Tahun 2014 tentang Hak Cipta, perlindungan berlaku selama hidup pencipta + 70 tahun setelah meninggal."},
+    {no:31,materi:"Pemrograman C & Arduino",soal:"Perulangan for(i=0; i<5; i++) pada bahasa C akan menjalankan blok kode sebanyak 5 kali dengan nilai i: 0, 1, 2, 3, 4.",kunci:true,penjelasan:"Mulai i=0, dieksekusi selama i<5, bertambah 1 tiap iterasi. Total 5 kali eksekusi: i=0,1,2,3,4."},
+    {no:32,materi:"Berpikir Komputasional & Algoritma",soal:"Kompleksitas waktu Binary Search adalah O(log n), lebih efisien dari Linear Search O(n) untuk data dalam jumlah besar.",kunci:true,penjelasan:"Binary Search O(log n) karena membagi data menjadi 2 tiap langkah. Linear Search O(n) memeriksa satu per satu."},
+  ],
+  isian:[
+    {no:33,materi:"Pemrograman C & Arduino",soal:"Fungsi Arduino untuk membaca nilai analog dari sensor yang menghasilkan nilai antara 0 hingga 1023 adalah:",kunci:"analogRead()",kwds:["analogread","analog_read","analogread()"]},
+    {no:34,materi:"Jaringan & Cyber Security",soal:"Protokol jaringan yang secara otomatis memberikan alamat IP kepada perangkat yang terhubung ke jaringan adalah:",kunci:"DHCP",kwds:["dhcp","dynamic host configuration protocol"]},
+  ],
+  uraian:[
+    {no:35,materi:"Berpikir Komputasional & Algoritma",soal:"Jelaskan keempat pilar Computational Thinking beserta contoh penerapannya masing-masing! Kemudian buatlah pseudocode untuk menentukan apakah suatu bilangan yang diinput pengguna adalah bilangan genap atau ganjil!",skor:20,rubrik:"(1) Decomposition + contoh = 2,5 poin | (2) Pattern Recognition + contoh = 2,5 poin | (3) Abstraction + contoh = 2,5 poin | (4) Algorithm Design + contoh = 2,5 poin | (5) Pseudocode lengkap & benar = 10 poin"},
+    {no:36,materi:"Jaringan & Cyber Security",soal:"Anda diminta merancang jaringan untuk laboratorium komputer dengan 30 unit komputer, 1 server, dan akses internet. Tentukan: (a) topologi yang tepat beserta alasannya, (b) perangkat keras yang dibutuhkan beserta fungsinya, (c) konfigurasi IP Address kelas C!",skor:15,rubrik:"(a) Topologi + alasan = 5 poin | (b) Perangkat + fungsi = 5 poin | (c) Konfigurasi IP benar = 5 poin"},
+    {no:37,materi:"Pemrograman C & Arduino",soal:"Buatlah program Arduino (bahasa C) untuk sistem lampu lalu lintas menggunakan 3 LED pada pin 2, 3, dan 4. Urutan: Hijau menyala 5 detik → Kuning 2 detik → Merah 5 detik → ulang terus-menerus. Sertakan penjelasan setiap bagian kode!",skor:15,rubrik:"setup() + pinMode = 3 poin | loop() + urutan warna benar = 6 poin | delay() tepat = 3 poin | penjelasan kode = 3 poin"},
+  ]
+};
+
+// Build flat question list
+const QUESTIONS=[];
+DB.pg.forEach(s=>QUESTIONS.push({type:'pg',data:s}));
+DB.pgk.forEach(s=>QUESTIONS.push({type:'pgk',data:s}));
+QUESTIONS.push({type:'menjodohkan',data:DB.menjodohkan});
+DB.bs.forEach(s=>QUESTIONS.push({type:'bs',data:s}));
+DB.isian.forEach(s=>QUESTIONS.push({type:'isian',data:s}));
+DB.uraian.forEach(s=>QUESTIONS.push({type:'uraian',data:s}));
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let user=null, answers={}, curQ=0, timer=null, timeLeft=7200;
+
+// ═══════════════════════════════════════════════
+// PAGE NAVIGATION
+// ═══════════════════════════════════════════════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+}
+function goHome(){
+  stopTimer();
+  document.getElementById('nav-chip').textContent='Kelas XII · Kurikulum Merdeka';
+  document.getElementById('timer').style.display='none';
+  document.getElementById('btn-guru').style.display='flex';
+  showPage('home');
+}
+function goAdmin(){
+  document.getElementById('btn-guru').style.display='none';
+  showPage('pin');
+  setTimeout(()=>document.getElementById('pin-inp').focus(),100);
+}
+
+// ═══════════════════════════════════════════════
+// START EXAM
+// ═══════════════════════════════════════════════
+function startExam(){
+  const nama=document.getElementById('inp-nama').value.trim();
+  const kelas=document.getElementById('inp-kelas').value;
+  const absen=document.getElementById('inp-absen').value.trim();
+  if(!nama||!kelas||!absen){alert('Lengkapi semua data terlebih dahulu!');return;}
+  user={nama,kelas,absen,startTime:Date.now()};
+  answers={};curQ=0;timeLeft=7200;
+  document.getElementById('nav-chip').textContent=`${nama} · ${kelas}`;
+  document.getElementById('btn-guru').style.display='none';
+  buildQNav();
+  renderQ(0);
+  showPage('exam');
+  startTimer();
+}
+
+// ═══════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════
+function startTimer(){
+  const el=document.getElementById('timer');
+  el.style.display='block';
+  if(timer)clearInterval(timer);
+  timer=setInterval(()=>{
+    timeLeft--;
+    const m=Math.floor(timeLeft/60),s=timeLeft%60;
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(timeLeft<600?' urgent':'');
+    if(timeLeft<=0){clearInterval(timer);submitExam();}
+  },1000);
+}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+
+// ═══════════════════════════════════════════════
+// Q-NAV
+// ═══════════════════════════════════════════════
+function buildQNav(){
+  const c=document.getElementById('qnav');c.innerHTML='';
+  QUESTIONS.forEach((q,i)=>{
+    const b=document.createElement('button');
+    b.className='qnav-btn';
+    b.textContent=q.type==='menjodohkan'?'25':q.data.no;
+    b.id='qb-'+i;b.onclick=()=>renderQ(i);
+    c.appendChild(b);
+  });
+}
+function updNav(){
+  QUESTIONS.forEach((_,i)=>{
+    const b=document.getElementById('qb-'+i);if(!b)return;
+    b.className='qnav-btn'+(isAns(i)?' done':'')+(i===curQ?' cur':'');
+  });
+  const done=QUESTIONS.filter((_,i)=>isAns(i)).length;
+  document.getElementById('exam-prog-txt').textContent=`${done} / ${QUESTIONS.length} soal terjawab`;
+  document.getElementById('exam-prog-bar').style.width=`${done/QUESTIONS.length*100}%`;
+}
+
+// ═══════════════════════════════════════════════
+// IS ANSWERED
+// ═══════════════════════════════════════════════
+function isAns(i){
+  const q=QUESTIONS[i];
+  if(q.type==='pg')return answers['pg_'+q.data.no]!==undefined;
+  if(q.type==='pgk')return(answers['pgk_'+q.data.no]||[]).length>0;
+  if(q.type==='menjodohkan'){const a=answers['mj']||{};return Object.keys(a).length===DB.menjodohkan.kolA.length;}
+  if(q.type==='bs')return answers['bs_'+q.data.no]!==undefined;
+  if(q.type==='isian')return(answers['is_'+q.data.no]||'').trim()!=='';
+  if(q.type==='uraian')return(answers['ur_'+q.data.no]||'').trim()!=='';
+  return false;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER QUESTION
+// ═══════════════════════════════════════════════
+const BADGE_MAP={pg:'b-blue',pgk:'b-yellow',menjodohkan:'b-orange',bs:'b-red',isian:'b-green',uraian:'b-purple'};
+const LABEL_MAP={pg:'Pilihan Ganda',pgk:'PG Kompleks',menjodohkan:'Menjodohkan',bs:'Benar / Salah',isian:'Isian Singkat',uraian:'Uraian'};
+
+function renderQ(idx){
+  curQ=idx;
+  const q=QUESTIONS[idx];
+  const area=document.getElementById('exam-q-area');
+  document.getElementById('exam-section-badge').innerHTML=`<span class="badge ${BADGE_MAP[q.type]}">${LABEL_MAP[q.type]}</span>`;
+  if(q.type==='pg')area.innerHTML=renderPG(q.data);
+  else if(q.type==='pgk')area.innerHTML=renderPGK(q.data);
+  else if(q.type==='menjodohkan')area.innerHTML=renderMJ(q.data);
+  else if(q.type==='bs')area.innerHTML=renderBS(q.data);
+  else if(q.type==='isian')area.innerHTML=renderIsian(q.data);
+  else if(q.type==='uraian')area.innerHTML=renderUraian(q.data);
+  updNav();
+}
+
+function renderPG(s){
+  const sel=answers['pg_'+s.no];
+  return`<div class="q-wrap${sel!==undefined?' answered':''}">
+    <div class="q-meta"><span class="badge b-blue">No. ${s.no}</span><span style="font-size:11px;color:var(--text3)">${s.materi}</span></div>
+    <div class="q-text">${s.no}. ${s.soal}</div>
+    <div class="options">${s.opsi.map((o,i)=>`<button class="opt${sel===i?' sel':''}" onclick="savePG(${s.no},${i})">
+      <span class="opt-key">${'ABCDE'[i]}</span>${o}</button>`).join('')}</div>
+  </div>`;
+}
+
+function renderPGK(s){
+  const sel=answers['pgk_'+s.no]||[];
+  return`<div class="q-wrap${sel.length>0?' answered':''}">
+    <div class="q-meta"><span class="badge b-yellow">No. ${s.no}</span><span style="font-size:11px;color:var(--text3)">${s.materi}</span></div>
+    <div class="q-text">${s.no}. ${s.soal}</div>
+    <div class="q-hint">Pilih <strong>semua</strong> jawaban yang benar (bisa lebih dari satu)</div>
+    <div class="options">${s.opsi.map((o,i)=>`<button class="opt${sel.includes(i)?' sel':''}" onclick="savePGK(${s.no},${i})">
+      <span class="opt-key">${'ABCDE'[i]}</span>${o}</button>`).join('')}</div>
+  </div>`;
+}
+
+function renderMJ(s){
+  const ans=answers['mj']||{};
+  const done=Object.keys(ans).length===s.kolA.length;
+  return`<div class="q-wrap${done?' answered':''}">
+    <div class="q-meta"><span class="badge b-orange">No. 25 — Menjodohkan</span><span style="font-size:11px;color:var(--text3)">${s.materi}</span></div>
+    <div class="q-text">Jodohkan setiap istilah pada Kolom A dengan definisi yang tepat pada Kolom B!</div>
+    <div class="q-hint">Kolom B memiliki satu pilihan tambahan (pengecoh) yang tidak digunakan</div>
+    <div class="mj-grid">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">
+        <div>Kolom A — Istilah</div><div>Kolom B — Pilih Definisi</div>
+      </div>
+      ${s.kolA.map((a,i)=>`<div class="mj-row">
+        <div class="mj-label"><strong>${i+1}.</strong>${a}</div>
+        <select class="mj-sel" onchange="saveMJ(${i},this.value)">
+          <option value="">— Pilih —</option>
+          ${s.kolB.map(b=>`<option value="${b.split('.')[0]}" ${ans[i]===b.split('.')[0]?'selected':''}>${b}</option>`).join('')}
+        </select>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderBS(s){
+  const sel=answers['bs_'+s.no];
+  return`<div class="q-wrap${sel!==undefined?' answered':''}">
+    <div class="q-meta"><span class="badge b-red">No. ${s.no}</span><span style="font-size:11px;color:var(--text3)">${s.materi}</span></div>
+    <div class="q-text">${s.no}. ${s.soal}</div>
+    <div class="bs-wrap">
+      <button class="bs-btn${sel===true?' b-true':''}" onclick="saveBS(${s.no},true)">✓ BENAR</button>
+      <button class="bs-btn${sel===false?' b-false':''}" onclick="saveBS(${s.no},false)">✗ SALAH</button>
+    </div>
+  </div>`;
+}
+
+function renderIsian(s){
+  const val=answers['is_'+s.no]||'';
+  return`<div class="q-wrap${val?' answered':''}">
+    <div class="q-meta"><span class="badge b-green">No. ${s.no}</span><span style="font-size:11px;color:var(--text3)">${s.materi}</span></div>
+    <div class="q-text">${s.no}. ${s.soal}</div>
+    <input type="text" placeholder="Ketik jawaban Anda..." value="${val.replace(/"/g,'&quot;')}" oninput="saveIsian(${s.no},this.value)" style="margin-top:8px">
+  </div>`;
+}
+
+function renderUraian(s){
+  const val=answers['ur_'+s.no]||'';
+  return`<div class="q-wrap${val?' answered':''}">
+    <div class="q-meta">
+      <span class="badge b-purple">No. ${s.no} — Uraian</span>
+      <span style="font-size:11px;color:var(--text3)">${s.materi}</span>
+      <span class="badge b-gray">Skor maks: ${s.skor}</span>
+    </div>
+    <div class="q-text">${s.no}. ${s.soal}</div>
+    <div class="q-hint">Rubrik penilaian: ${s.rubrik}</div>
+    <textarea class="essay" placeholder="Tulis jawaban selengkap mungkin di sini..." oninput="saveUraian(${s.no},this.value)">${val}</textarea>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// SAVE ANSWERS
+// ═══════════════════════════════════════════════
+function savePG(no,val){
+  answers['pg_'+no]=val;
+  document.querySelectorAll('.opt').forEach((el,i)=>{el.className='opt'+(i===val?' sel':'');});
+  updNav();
+}
+function savePGK(no,val){
+  if(!answers['pgk_'+no])answers['pgk_'+no]=[];
+  const a=answers['pgk_'+no],i=a.indexOf(val);
+  if(i>=0)a.splice(i,1);else a.push(val);
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach((el,idx)=>{el.className='opt'+(a.includes(idx)?' sel':'');});
+  updNav();
+}
+function saveMJ(idx,val){
+  if(!answers['mj'])answers['mj']={};
+  if(val)answers['mj'][idx]=val;else delete answers['mj'][idx];
+  updNav();
+}
+function saveBS(no,val){
+  answers['bs_'+no]=val;
+  const btns=document.querySelectorAll('.bs-btn');
+  if(btns[0])btns[0].className='bs-btn'+(val===true?' b-true':'');
+  if(btns[1])btns[1].className='bs-btn'+(val===false?' b-false':'');
+  updNav();
+}
+function saveIsian(no,val){answers['is_'+no]=val;updNav();}
+function saveUraian(no,val){answers['ur_'+no]=val;updNav();}
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+function collectCurrent(){
+  const q=QUESTIONS[curQ];
+  if(q.type==='isian'){const el=document.querySelector('#exam-q-area input[type=text]');if(el)saveIsian(q.data.no,el.value);}
+  if(q.type==='uraian'){const el=document.querySelector('#exam-q-area textarea');if(el)saveUraian(q.data.no,el.value);}
+  if(q.type==='menjodohkan'){DB.menjodohkan.kolA.forEach((_,i)=>{const el=document.getElementById('mj-sel-'+i)||document.querySelectorAll('.mj-sel')[i];if(el)saveMJ(i,el.value);});}
+}
+function goPrev(){collectCurrent();if(curQ>0)renderQ(curQ-1);}
+function goNext(){collectCurrent();if(curQ<QUESTIONS.length-1)renderQ(curQ+1);}
+
+function openConfirm(){
+  collectCurrent();
+  const done=QUESTIONS.filter((_,i)=>isAns(i)).length;
+  const left=QUESTIONS.length-done;
+  document.getElementById('confirm-info').innerHTML=`<strong style="color:var(--text)">${done} soal</strong> sudah dijawab, <strong style="color:var(--yellow)">${left} soal</strong> belum dijawab.<br><br>Setelah dikumpulkan, Anda tidak dapat mengubah jawaban lagi.`;
+  openModal('modal-confirm');
+}
+
+// ═══════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════
+function submitExam(){
+  closeModal('modal-confirm');
+  collectCurrent();
+  stopTimer();
+  const score=calcScore();
+  const rec={
+    id:Date.now(),nama:user.nama,kelas:user.kelas,absen:user.absen,
+    startTime:user.startTime,endTime:Date.now(),
+    answers:{...answers},
+    score,uraianScore:0
+  };
+  saveRecord(rec);
+  showDonePage(rec,score);
+}
+
+// ═══════════════════════════════════════════════
+// CALC SCORE (objective only)
+// ═══════════════════════════════════════════════
+function calcScore(){
+  let pg=0,pgk=0,mj=0,bs=0,isian=0;
+  DB.pg.forEach(s=>{if(answers['pg_'+s.no]===s.kunci)pg++;});
+  DB.pgk.forEach(s=>{
+    const sel=answers['pgk_'+s.no]||[];
+    const ok=s.kunci;
+    if(JSON.stringify([...sel].sort((a,b)=>a-b))===JSON.stringify([...ok].sort((a,b)=>a-b)))pgk+=2;
+    else if(sel.some(x=>ok.includes(x)))pgk+=1;
+  });
+  const mja=answers['mj']||{};
+  DB.menjodohkan.kolA.forEach((_,i)=>{if(mja[i]===DB.menjodohkan.kunci[i])mj++;});
+  DB.bs.forEach(s=>{if(answers['bs_'+s.no]===s.kunci)bs++;});
+  DB.isian.forEach(s=>{
+    const a=(answers['is_'+s.no]||'').toLowerCase().trim();
+    if(s.kwds.some(k=>a.includes(k)))isian+=2;
+  });
+  return{pg,pgk,mj,bs,isian,pgMax:17,pgkMax:14,mjMax:7,bsMax:7,isianMax:4,uraianMax:51};
+}
+
+// ═══════════════════════════════════════════════
+// DONE PAGE (no score shown to student)
+// ═══════════════════════════════════════════════
+function showDonePage(rec,score){
+  const done=QUESTIONS.filter((_,i)=>isAns(i)).length;
+  const dur=Math.round((rec.endTime-rec.startTime)/60000);
+  document.getElementById('done-summary').innerHTML=`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Nama Peserta</span><strong>${rec.nama}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Kelas / Absen</span><strong>${rec.kelas} / ${rec.absen}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text2)">Soal Dijawab</span><strong>${done} dari ${QUESTIONS.length} soal</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0"><span style="color:var(--text2)">Durasi Pengerjaan</span><strong>${dur} menit</strong></div>`;
+  document.getElementById('nav-chip').textContent=rec.nama+' · '+rec.kelas;
+  document.getElementById('timer').style.display='none';
+  showPage('done');
+}
+
+// ═══════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════
+function saveRecord(rec){
+  const all=loadRecords();all.push(rec);
+  try{localStorage.setItem('psaj_data',JSON.stringify(all));}catch(e){}
+}
+function loadRecords(){
+  try{const r=localStorage.getItem('psaj_data');return r?JSON.parse(r):[];}catch(e){return[];}
+}
+function deleteRecord(id){
+  const all=loadRecords().filter(r=>r.id!==id);
+  localStorage.setItem('psaj_data',JSON.stringify(all));
+  refreshAdmin();
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════
+const ADMIN_PIN='1234';
+function checkPin(){
+  if(document.getElementById('pin-inp').value===ADMIN_PIN){
+    showPage('admin');refreshAdmin();
+  }else{
+    document.getElementById('pin-inp').value='';
+    document.getElementById('pin-inp').style.borderColor='var(--red)';
+    setTimeout(()=>document.getElementById('pin-inp').style.borderColor='',1500);
+    alert('PIN salah!');
+  }
+}
+
+function refreshAdmin(){
+  const recs=loadRecords();
+  renderAdminStats(recs);
+  renderResponden();
+  renderRekap(recs);
+  renderMateri(recs);
+  renderUraianTab(recs);
+}
+
+function getPredikat(n){
+  if(n>=90)return{label:'Amat Baik',cls:'b-green'};
+  if(n>=80)return{label:'Baik',cls:'b-blue'};
+  if(n>=70)return{label:'Cukup',cls:'b-yellow'};
+  return{label:'Perlu Bimbingan',cls:'b-red'};
+}
+
+function calcTotal(rec){
+  const s=rec.score;
+  return s.pg+s.pgk+s.mj+s.bs+s.isian+(rec.uraianScore||0);
+}
+function calcPct(rec){
+  return Math.min(100,Math.round(calcTotal(rec)/100*100));
+}
+
+function renderAdminStats(recs){
+  const n=recs.length;
+  const pcts=recs.map(r=>calcPct(r));
+  const avg=n?Math.round(pcts.reduce((a,b)=>a+b,0)/n):0;
+  const lulus=pcts.filter(p=>p>=70).length;
+  document.getElementById('admin-stats').innerHTML=`
+    <div class="stat"><span class="stat-val">${n}</span><div class="stat-lbl">Total Peserta</div></div>
+    <div class="stat"><span class="stat-val" style="color:var(--blue)">${avg}</span><div class="stat-lbl">Rata-rata Nilai</div></div>
+    <div class="stat"><span class="stat-val" style="color:var(--green)">${lulus}</span><div class="stat-lbl">Lulus (≥70)</div></div>
+    <div class="stat"><span class="stat-val" style="color:var(--red)">${n-lulus}</span><div class="stat-lbl">Remedial</div></div>
+    <div class="stat"><span class="stat-val">${n?Math.max(...pcts):0}</span><div class="stat-lbl">Nilai Tertinggi</div></div>
+    <div class="stat"><span class="stat-val">${n?Math.min(...pcts):0}</span><div class="stat-lbl">Nilai Terendah</div></div>`;
+}
+
+function renderResponden(){
+  let recs=loadRecords();
+  const fn=(document.getElementById('f-nama')||{}).value||'';
+  const fk=(document.getElementById('f-kelas')||{}).value||'';
+  const fs=(document.getElementById('f-sort')||{}).value||'time';
+  if(fn)recs=recs.filter(r=>r.nama.toLowerCase().includes(fn.toLowerCase()));
+  if(fk)recs=recs.filter(r=>r.kelas===fk);
+  if(fs==='nilai-desc')recs.sort((a,b)=>calcPct(b)-calcPct(a));
+  else if(fs==='nilai-asc')recs.sort((a,b)=>calcPct(a)-calcPct(b));
+  else if(fs==='nama')recs.sort((a,b)=>a.nama.localeCompare(b.nama));
+  else recs.sort((a,b)=>a.endTime-b.endTime);
+
+  const tb=document.getElementById('resp-tbody');
+  if(!tb)return;
+  tb.innerHTML=recs.map((r,i)=>{
+    const s=r.score,pct=calcPct(r),pr=getPredikat(pct);
+    const t=new Date(r.endTime).toLocaleString('id-ID',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    return`<tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td style="font-weight:600">${r.nama}</td>
+      <td>${r.kelas}</td>
+      <td style="text-align:center">${r.absen}</td>
+      <td style="text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700">${s.pg+s.pgk+s.mj+s.bs+s.isian}</td>
+      <td style="text-align:center;font-family:'JetBrains Mono',monospace;color:var(--purple)">${r.uraianScore||'—'}</td>
+      <td style="text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue)">${pct}</td>
+      <td><span class="badge ${pr.cls}">${pr.label}</span></td>
+      <td style="text-align:center">${s.pg}/${s.pgMax}</td>
+      <td style="text-align:center">${s.pgk}/${s.pgkMax}</td>
+      <td style="text-align:center">${s.mj}/${s.mjMax}</td>
+      <td style="text-align:center">${s.bs}/${s.bsMax}</td>
+      <td style="text-align:center">${s.isian}/${s.isianMax}</td>
+      <td style="font-size:11px;color:var(--text3)">${t}</td>
+      <td style="display:flex;gap:5px">
+        <button class="btn btn-xs" onclick="viewDetail(${r.id})">Detail</button>
+        <button class="btn btn-xs btn-red" onclick="if(confirm('Hapus data ${r.nama}?'))deleteRecord(${r.id})">×</button>
+      </td>
+    </tr>`;
+  }).join('')||`<tr><td colspan="15" style="text-align:center;padding:32px;color:var(--text3)">Belum ada data peserta</td></tr>`;
+}
+
+function renderRekap(recs){
+  const el=document.getElementById('rekap-content');if(!el)return;
+  if(!recs.length){el.innerHTML='<p style="color:var(--text2);font-size:13px">Belum ada data</p>';return;}
+  let html='';
+  DB.pg.forEach(s=>{
+    const ok=recs.filter(r=>r.answers['pg_'+s.no]===s.kunci).length;
+    const pct=Math.round(ok/recs.length*100);
+    const col=pct>=70?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
+    html+=`<div class="bar-item">
+      <div class="bar-row"><span class="bar-label">No.${s.no} · ${s.soal.substring(0,55)}…</span><span class="bar-pct">${ok}/${recs.length} (${pct}%)</span></div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderMateri(recs){
+  const el=document.getElementById('materi-content');if(!el)return;
+  if(!recs.length){el.innerHTML='<p style="color:var(--text2);font-size:13px">Belum ada data</p>';return;}
+  const map={};
+  DB.pg.forEach(s=>{
+    if(!map[s.materi])map[s.materi]={ok:0,tot:0};
+    map[s.materi].tot+=recs.length;
+    map[s.materi].ok+=recs.filter(r=>r.answers['pg_'+s.no]===s.kunci).length;
+  });
+  DB.bs.forEach(s=>{
+    if(!map[s.materi])map[s.materi]={ok:0,tot:0};
+    map[s.materi].tot+=recs.length;
+    map[s.materi].ok+=recs.filter(r=>r.answers['bs_'+s.no]===s.kunci).length;
+  });
+  let html='';
+  Object.entries(map).forEach(([m,v])=>{
+    const pct=Math.round(v.ok/v.tot*100);
+    const col=pct>=70?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
+    html+=`<div class="bar-item">
+      <div class="bar-row"><span class="bar-label" style="font-size:13px">${m}</span><span class="bar-pct" style="font-size:13px">${pct}% benar</span></div>
+      <div class="bar" style="height:8px"><div class="bar-fill" style="width:${pct}%;height:8px;background:${col}"></div></div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderUraianTab(recs){
+  const el=document.getElementById('uraian-list');if(!el)return;
+  if(!recs.length){el.innerHTML='<div class="card"><p style="color:var(--text2);font-size:13px">Belum ada data peserta</p></div>';return;}
+  el.innerHTML=recs.map(r=>`
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div>
+          <span style="font-weight:700">${r.nama}</span>
+          <span style="color:var(--text2);font-size:12px;margin-left:8px">${r.kelas} · Absen ${r.absen}</span>
+        </div>
+        <span class="badge b-purple">Uraian ${r.uraianScore||0} / 50 poin</span>
+      </div>
+      ${DB.uraian.map(s=>{
+        const ans=r.answers['ur_'+s.no]||'(Tidak dijawab)';
+        return`<div class="uraian-card">
+          <div style="font-size:12px;font-weight:700;margin-bottom:6px">No. ${s.no} — ${s.materi} <span style="color:var(--text2);font-weight:400">(maks ${s.skor} poin)</span></div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:8px">${s.soal}</div>
+          <div class="rubrik-note">${s.rubrik}</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Jawaban Peserta:</div>
+          <div class="uraian-ans">${ans.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+          <div class="score-row">
+            <label style="font-size:12px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--text2)">Skor:</label>
+            <input type="number" min="0" max="${s.skor}" style="width:80px" placeholder="0-${s.skor}" id="us-${s.no}-${r.id}" value="${(r.uraianScoreDetail||{})[s.no]||''}">
+            <span style="font-size:12px;color:var(--text2)">/ ${s.skor} poin</span>
+          </div>
+        </div>`;
+      }).join('')}
+      <button class="btn btn-green btn-sm" onclick="saveUraianScore(${r.id})" style="margin-top:4px">Simpan Nilai Uraian Peserta Ini</button>
+    </div>`).join('');
+}
+
+function saveUraianScore(id){
+  const recs=loadRecords();
+  const idx=recs.findIndex(r=>r.id===id);if(idx<0)return;
+  let tot=0;const det={};
+  DB.uraian.forEach(s=>{
+    const el=document.getElementById('us-'+s.no+'-'+id);
+    const v=Math.min(parseInt(el?.value||0)||0,s.skor);
+    tot+=v;det[s.no]=v;
+  });
+  recs[idx].uraianScore=tot;
+  recs[idx].uraianScoreDetail=det;
+  localStorage.setItem('psaj_data',JSON.stringify(recs));
+  refreshAdmin();
+  alert(`✅ Nilai uraian ${recs[idx].nama} berhasil disimpan! (${tot} poin)`);
+}
+
+function viewDetail(id){
+  const recs=loadRecords();
+  const r=recs.find(x=>x.id===id);if(!r)return;
+  const pct=calcPct(r);const pr=getPredikat(pct);
+  let html=`<div class="stats-grid" style="margin-bottom:18px">
+    <div class="stat"><span class="stat-val" style="color:var(--blue)">${pct}</span><div class="stat-lbl">Total Nilai</div></div>
+    <div class="stat"><span class="stat-val">${r.score.pg}/${r.score.pgMax}</span><div class="stat-lbl">PG</div></div>
+    <div class="stat"><span class="stat-val">${r.score.pgk}/${r.score.pgkMax}</span><div class="stat-lbl">PGK</div></div>
+    <div class="stat"><span class="stat-val">${r.score.mj}/${r.score.mjMax}</span><div class="stat-lbl">Menjodohkan</div></div>
+    <div class="stat"><span class="stat-val">${r.score.bs}/${r.score.bsMax}</span><div class="stat-lbl">Benar/Salah</div></div>
+    <div class="stat"><span class="stat-val">${r.score.isian}/${r.score.isianMax}</span><div class="stat-lbl">Isian</div></div>
+  </div>
+  <p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Detail Jawaban Pilihan Ganda</p>`;
+  DB.pg.forEach(s=>{
+    const ua=r.answers['pg_'+s.no];
+    const ok=ua===s.kunci;
+    html+=`<div class="review-item ${ok?'ok':'ng'}">
+      <strong>No.${s.no}</strong> ${ok?'✓':'✗'} &nbsp;·&nbsp;
+      Jawaban: <strong>${ua!==undefined?'ABCDE'[ua]+'. '+s.opsi[ua]:'—'}</strong>
+      ${!ok?` &nbsp;·&nbsp; Kunci: <strong style="color:var(--green)">${'ABCDE'[s.kunci]}. ${s.opsi[s.kunci]}</strong>`:''}
+    </div>`;
+  });
+  html+=`<p style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 10px">Detail Benar/Salah</p>`;
+  DB.bs.forEach(s=>{
+    const ua=r.answers['bs_'+s.no];const ok=ua===s.kunci;
+    html+=`<div class="review-item ${ok?'ok':'ng'}">
+      <strong>No.${s.no}</strong> ${ok?'✓':'✗'} &nbsp;·&nbsp;
+      Jawaban: <strong>${ua!==undefined?(ua?'BENAR':'SALAH'):'—'}</strong>
+      &nbsp;·&nbsp; Kunci: <strong style="color:var(--green)">${s.kunci?'BENAR':'SALAH'}</strong>
+      <div style="margin-top:5px;font-size:11px;color:var(--text2)">${s.penjelasan}</div>
+    </div>`;
+  });
+  document.getElementById('detail-title').innerHTML=`${r.nama} <span style="font-size:12px;color:var(--text2);font-weight:400">${r.kelas} · Absen ${r.absen}</span>`;
+  document.getElementById('detail-body').innerHTML=html;
+  openModal('modal-detail');
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT CSV
+// ═══════════════════════════════════════════════
+function exportCSV(){
+  const recs=loadRecords();
+  if(!recs.length){alert('Belum ada data untuk diexport');return;}
+  const hdr=['No','Nama','Kelas','Absen','Nilai PG','Nilai PGK','Nilai Menjodohkan','Nilai B/S','Nilai Isian','Nilai Uraian','Total Nilai','Predikat','Waktu Selesai'];
+  const rows=recs.map((r,i)=>{
+    const pct=calcPct(r);const pr=getPredikat(pct);
+    return[i+1,`"${r.nama}"`,r.kelas,r.absen,
+      r.score.pg,r.score.pgk,r.score.mj,r.score.bs,r.score.isian,r.uraianScore||0,
+      pct,pr.label,new Date(r.endTime).toLocaleString('id-ID')].join(',');
+  });
+  const csv=[hdr.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='PSAJ_Informatika_XII_'+new Date().toLocaleDateString('id-ID').replace(/\//g,'-')+'.csv';
+  a.click();
+}
+
+function clearData(){
+  if(!confirm('⚠️ Hapus SEMUA data responden? Tindakan ini tidak dapat dibatalkan!'))return;
+  localStorage.removeItem('psaj_data');
+  refreshAdmin();
+}
+
+// ═══════════════════════════════════════════════
+// TABS & MODALS
+// ═══════════════════════════════════════════════
+function switchTab(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['responden','rekap','materi','uraian-tab'].forEach(t=>{
+    const d=document.getElementById('tab-'+t);
+    if(d)d.style.display=t===name?'block':'none';
+  });
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+});
+</script>
+</body>
+</html>
